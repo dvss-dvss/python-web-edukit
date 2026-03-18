@@ -3,12 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootswatch Solar theme -->
   <link
-    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/solar/bootstrap.min.css"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/solar/bootstrap.min.css"
     rel="stylesheet"
-    integrity=""
-    crossorigin="anonymous"
   >
   <title>
     {% block title %}
@@ -17,45 +14,49 @@
   </title>
 </head>
 <body>
-  <!-- Navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">EduKit</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">EduKit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/">Головна</a>
+            <a class="nav-link" href="{% url 'home' %}">Головна</a>
           </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'manage_course_list' %}">Мої курси</a>
+            </li>
+            <li class="nav-item">
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link border-0">Вихід</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Вхід</a>
+            </li>
+          {% endif %}
         </ul>
-        <form class="d-flex me-3" method="get" action="">
-          <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search" name="q">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" name="q" placeholder="Пошук" aria-label="Пошук">
           <button class="btn btn-outline-light" type="submit">Пошук</button>
         </form>
-        {% if user.is_authenticated %}
-          <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button class="btn btn-outline-light" type="submit">Вихід</button>
-          </form>
-        {% else %}
-          <a class="btn btn-outline-light" href="{% url 'login' %}">Вхід</a>
-        {% endif %}
       </div>
     </div>
   </nav>
 
-  <div class="container mt-4">
+  <main class="container py-4">
     {% block content %}
     <h1>Hello, World!</h1>
     {% endblock  %}
-  </div>
+  </main>
 
   <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
   ></script>
 </body>
 </html>
