@@ -41,4 +41,21 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
     def dispatch(self, request, pk):
         self.course = get_object_or_404(Course, id=pk, owner=request.user)
         return super().dispatch(request, pk)
+
+    def get(self, request, *args, **kwargs):
+        formes = self.get_formset()
+        return self.get_to_response({
+            'course': self.course,
+            'formset': formes
+        })
+    
+    def post(self, request, *args, **kwargs):
+        formes = self.get_formset(data=request.POST)
+        if formes.is_valid():
+            formes.save()
+            return redirect('manage_course_list')
+        return self.get_to_response({
+            'course': self.course,
+            'formset': formes
+        })
     
