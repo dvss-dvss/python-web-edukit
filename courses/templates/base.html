@@ -40,9 +40,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <form method="post" action="{% url 'logout' %}">
+              <form method="post" action="{% url 'logout' %}" style="display: inline;">
                 {% csrf_token %}
-              <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Вхід</a>
+                <button type="submit" class="nav-link btn btn-link" style="padding: 0.5rem 1rem;">Вихід</button>
               </form>
             </li>
           {% else %}
