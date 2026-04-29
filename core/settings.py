@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'students',
     'crispy_forms',
     'crispy_bootstrap5',
+    'embed_video',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,7 +131,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Authentication settings
 
-LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+LOGIN_REDIRECT_URL = reverse_lazy('course_list')
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
