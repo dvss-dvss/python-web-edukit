@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from courses.api.serializers import SubjectSerializer
-from courses.models import Subject
+from courses.api.serializers import SubjectSerializer, CourseSerializer
+from courses.models import Subject, Course
 
 
 class CourseEnrollView(APIView):
@@ -24,3 +24,7 @@ class SubjectList(generics.ListAPIView):
 class SubjectDetail(generics.RetrieveAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
+
+class CourseViewSet(viewsets.ReadOnlyModelViewset):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
